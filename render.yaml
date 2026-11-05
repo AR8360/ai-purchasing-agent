@@ -1,6 +1,7 @@
 # One free web service: the Express API, the mock external systems and the built UI.
-# The demo replays recorded model responses (LLM_CACHE=replay), so no Gemini key is
-# deployed and no quota is used. Set MONGO_URI in the Render dashboard.
+# LLM_CACHE=record: the 14 recorded scenarios replay from eval/fixtures (no quota used);
+# only a request that was never recorded calls Gemini. Without GEMINI_API_KEY it behaves
+# like replay. Set MONGO_URI and (optionally) GEMINI_API_KEY in the Render dashboard.
 services:
   - type: web
     name: ai-purchasing-agent
@@ -15,7 +16,11 @@ services:
       - key: HOST
         value: 0.0.0.0
       - key: LLM_CACHE
-        value: replay
+        value: record
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: LLM_MIN_INTERVAL_MS
+        value: "6000"
       - key: LLM_PROVIDER
         value: gemini
       - key: MODEL

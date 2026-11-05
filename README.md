@@ -10,7 +10,7 @@ An agent for a quick-commerce buyer that **makes, executes and validates purchas
 
 ▶ **[Demo video](https://www.loom.com/share/8f2f0f2f149e4313873dfa5973ce5843)** — a live run of Scenario 1 (modify, then human approval) and Scenario 2 (re-source, adjust after a rejected order, compensate after a second failure), then the evaluation tab.
 
-🌐 **[Live app](https://ai-purchasing-agent-tl1s.onrender.com)** — pick a scenario under Simulate and click **Seed world & run agent**. It runs on Render's free plan, so the first load after a quiet period can take about a minute. It replays recorded model responses (no API key deployed).
+🌐 **[Live app](https://ai-purchasing-agent-tl1s.onrender.com)** — pick a scenario under Simulate and click **Seed world & run agent**. It runs on Render's free plan, so the first load after a quiet period can take about a minute. Recorded scenarios replay from saved model responses, so they use no API quota; only a request that was never recorded calls Gemini.
 
 To run it yourself you do not need a Gemini key: with the default `LLM_CACHE=record`, every demo scenario replays recorded model responses.
 
@@ -40,7 +40,7 @@ Useful commands:
 
 ## Deploy (optional)
 
-`render.yaml` deploys the API, the mock systems and the built UI as one free Render web service. It runs with `LLM_CACHE=replay`, so no Gemini key is deployed and no quota is used. Set `MONGO_URI` in the Render dashboard (use a separate database name, for example `/purchasing_demo`), and allow Render in Atlas Network Access. The free plan sleeps when idle, so the first request can take about a minute.
+`render.yaml` deploys the API, the mock systems and the built UI as one free Render web service. It runs with `LLM_CACHE=record`: recorded scenarios replay at no quota cost, and only unrecorded requests call Gemini (without a `GEMINI_API_KEY` it behaves like replay). Set `MONGO_URI`, and optionally `GEMINI_API_KEY`, in the Render dashboard (use a separate database name, for example `/purchasing_demo`), and allow Render in Atlas Network Access. The free plan sleeps when idle, so the first request can take about a minute.
 
 ## Demo script (UI)
 
