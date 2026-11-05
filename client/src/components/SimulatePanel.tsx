@@ -9,6 +9,7 @@ export function SimulatePanel({ onStarted }: { onStarted: (id: string) => void }
   const [variant, setVariant] = useState('s1-b');
   const [override, setOverride] = useState(false);
   const [faults, setFaults] = useState<string[]>([]);
+  const [showExpected, setShowExpected] = useState(false);
   const v = variants.data?.find((x) => x.name === variant);
 
   const run = useMutation({
@@ -27,24 +28,31 @@ export function SimulatePanel({ onStarted }: { onStarted: (id: string) => void }
         <select value={variant} onChange={(e) => setVariant(e.target.value)}>
           {variants.data?.map((x) => (
             <option key={x.name} value={x.name}>
-              {x.name} — {x.description.split(' — ')[0]}
+              {x.name} — {x.name.startsWith('s1') ? 'Scenario 1 · recommendation review' : 'Scenario 2 · supplier shortfall'}
             </option>
           ))}
         </select>
       </label>
       {v && (
         <p className="hint">
-          {v.description}
-          <br />
-          <span className="muted">
+          <span>
             Trigger:{' '}
             {v.trigger.type === 'RECOMMENDATION'
               ? `recommend ${v.trigger.qty} × ${v.trigger.sku} from ${v.trigger.supplierId}`
               : `${v.trigger.poId} confirmed only ${v.trigger.confirmedQty}`}
             {v.faults.length ? ` · faults: ${v.faults.join(', ')}` : ''}
           </span>
+          {showExpected && (
+            <>
+              <br />
+              <span className="muted">Expected: {v.description}</span>
+            </>
+          )}
         </p>
       )}
+      <label className="check">
+        <input type="checkbox" checked={showExpected} onChange={(e) => setShowExpected(e.target.checked)} /> Show expected outcome
+      </label>
       <label className="check">
         <input type="checkbox" checked={override} onChange={(e) => setOverride(e.target.checked)} /> Override faults
       </label>
