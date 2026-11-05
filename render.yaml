@@ -1,0 +1,26 @@
+# One free web service: the Express API, the mock external systems and the built UI.
+# The demo replays recorded model responses (LLM_CACHE=replay), so no Gemini key is
+# deployed and no quota is used. Set MONGO_URI in the Render dashboard.
+services:
+  - type: web
+    name: ai-purchasing-agent
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: HOST
+        value: 0.0.0.0
+      - key: LLM_CACHE
+        value: replay
+      - key: LLM_PROVIDER
+        value: gemini
+      - key: MODEL
+        value: gemini-3.5-flash-lite
+      - key: SIM_NOW
+        value: 2026-11-01T00:00:00.000Z
+      - key: MONGO_URI
+        sync: false

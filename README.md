@@ -36,6 +36,10 @@ Useful commands:
 
 **API key and quota.** You do not need a Gemini key to try it. With the default `LLM_CACHE=record`, the 14 demo scenarios replay from recorded model responses, so running them in the UI and `npm run eval` use no quota. A key is only used for a request that was never recorded, or when you choose `LLM_CACHE=off` or `npm run eval:live`. That is about 2 model calls per scenario run (about 28 for a full live evaluation), well within the Gemini free tier. Calls are spaced by `LLM_MIN_INTERVAL_MS`, 429s are retried with backoff, and a daily-quota error fails fast with a clear message instead of hanging.
 
+## Deploy (optional)
+
+`render.yaml` deploys the API, the mock systems and the built UI as one free Render web service. It runs with `LLM_CACHE=replay`, so no Gemini key is deployed and no quota is used. Set `MONGO_URI` in the Render dashboard (use a separate database name, for example `/purchasing_demo`), and allow Render in Atlas Network Access. The free plan sleeps when idle, so the first request can take about a minute.
+
 ## Demo script (UI)
 
 Use **Simulate → pick a scenario → Seed world & run agent**. Each run re-seeds the database and fires that scenario's trigger and faults.
