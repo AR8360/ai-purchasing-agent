@@ -1,0 +1,22 @@
+{
+  "description": "S1 \u00b7 NEEDS APPROVAL \u2014 recommendation of 200 is too low; the agent wants 350 (+75%), which policy routes to a human.",
+  "replace": {
+    "storage": [
+      {
+        "node": "BLR-01",
+        "zone": "chilled",
+        "capacityUnits": 650,
+        "usedUnits": 150,
+        "reservedInboundUnits": 0
+      }
+    ]
+  },
+  "trigger": {
+    "type": "RECOMMENDATION",
+    "sku": "BUTTER-500",
+    "node": "BLR-01",
+    "supplierId": "DAIRYCO",
+    "qty": 200
+  },
+  "faults": []
+}

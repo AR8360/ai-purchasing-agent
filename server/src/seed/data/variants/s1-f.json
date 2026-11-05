@@ -1,0 +1,14 @@
+{
+  "description": "S1 \u00b7 RETRY \u2014 the PO service times out after creating the PO; an idempotent retry must not create a duplicate.",
+  "replace": {},
+  "faults": [
+    "timeout"
+  ],
+  "trigger": {
+    "type": "RECOMMENDATION",
+    "sku": "BUTTER-500",
+    "node": "BLR-01",
+    "supplierId": "DAIRYCO",
+    "qty": 800
+  }
+}

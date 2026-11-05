@@ -1,0 +1,81 @@
+{
+  "description": "S2 \u00b7 ACCEPT PARTIAL \u2014 700 on hand means the 250 shortfall does not matter; amend PO-2001 to 250.",
+  "replace": {
+    "inventory": [
+      {
+        "sku": "BUTTER-500",
+        "node": "BLR-01",
+        "onHand": 700,
+        "reserved": 0,
+        "updatedHoursAgo": 1
+      }
+    ],
+    "purchaseOrders": [
+      {
+        "poId": "PO-2001",
+        "sku": "BUTTER-500",
+        "node": "BLR-01",
+        "supplierId": "DAIRYCO",
+        "qty": 500,
+        "unitCost": 240,
+        "status": "CONFIRMED",
+        "expectedInDays": 6
+      }
+    ],
+    "budgets": [
+      {
+        "node": "BLR-01",
+        "category": "dairy",
+        "period": "2026-11",
+        "total": 150000,
+        "reserved": 120000,
+        "spent": 0
+      }
+    ],
+    "storage": [
+      {
+        "node": "BLR-01",
+        "zone": "chilled",
+        "capacityUnits": 1200,
+        "usedUnits": 700,
+        "reservedInboundUnits": 0
+      }
+    ],
+    "supplierTerms": [
+      {
+        "supplierId": "DAIRYCO",
+        "sku": "BUTTER-500",
+        "leadTimeDays": 7,
+        "moq": 200,
+        "packSize": 50,
+        "unitCost": 240,
+        "backfillLeadDays": 14
+      },
+      {
+        "supplierId": "FRESHFARMS",
+        "sku": "BUTTER-500",
+        "leadTimeDays": 3,
+        "moq": 200,
+        "packSize": 50,
+        "unitCost": 252,
+        "backfillLeadDays": 3
+      },
+      {
+        "supplierId": "BUTTERHOUSE",
+        "sku": "BUTTER-500",
+        "leadTimeDays": 2,
+        "moq": 500,
+        "packSize": 50,
+        "unitCost": 300,
+        "backfillLeadDays": 2
+      }
+    ]
+  },
+  "trigger": {
+    "type": "SUPPLIER_SHORTFALL",
+    "poId": "PO-2001",
+    "confirmedQty": 250,
+    "message": "Production issue: can only confirm 250 of 500."
+  },
+  "faults": []
+}

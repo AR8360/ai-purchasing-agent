@@ -1,0 +1,14 @@
+{
+  "description": "S1 \u00b7 COMPENSATE \u2014 the supplier portal silently rounds the PO up by one pack, breaking the storage limit; the agent cancels and escalates.",
+  "replace": {},
+  "faults": [
+    "mismatch_qty"
+  ],
+  "trigger": {
+    "type": "RECOMMENDATION",
+    "sku": "BUTTER-500",
+    "node": "BLR-01",
+    "supplierId": "DAIRYCO",
+    "qty": 800
+  }
+}
