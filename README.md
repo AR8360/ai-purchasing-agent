@@ -10,6 +10,8 @@ An agent for a quick-commerce buyer that **makes, executes and validates purchas
 
 ▶ **[Demo video](https://www.loom.com/share/8f2f0f2f149e4313873dfa5973ce5843)** — a live run of Scenario 1 (modify, then human approval) and Scenario 2 (re-source, adjust after a rejected order, compensate after a second failure), then the evaluation tab.
 
+🌐 **[Live app](https://ai-purchasing-agent-tl1s.onrender.com)** — pick a scenario under Simulate and click **Seed world & run agent**. It runs on Render's free plan, so the first load after a quiet period can take about a minute. It replays recorded model responses (no API key deployed).
+
 To run it yourself you do not need a Gemini key: with the default `LLM_CACHE=record`, every demo scenario replays recorded model responses.
 
 ## Run it
