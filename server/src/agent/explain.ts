@@ -18,6 +18,18 @@ export function buildExplanation(d: DecisionDoc): string {
     lines.push(`Decision: ${sub.decision}${sub.strategy && sub.strategy !== 'STANDARD' ? ` (${sub.strategy})` : ''}${q}.`);
   }
   if (d.engine) lines.push(`Why: ${d.engine.summary}.`);
+  // The quantity chain, straight from the engine, so the note never skips a step
+  // (for example true need 334 → 350 after rounding up to whole packs).
+  const c = d.computed as {
+    need?: { trueNeed: number };
+    constraints?: { requestedQty: number; maxByBudget: number; maxByStorage: number; feasibleQty: number; bindingConstraint: string };
+  };
+  if (t.type === 'RECOMMENDATION' && c.need && c.constraints && c.need.trueNeed > 0) {
+    const k = c.constraints;
+    lines.push(
+      `Quantity: true need ${c.need.trueNeed} → ${k.requestedQty} after MOQ and whole packs → limits: budget ${k.maxByBudget}, storage ${k.maxByStorage} → feasible ${k.feasibleQty}${k.bindingConstraint !== 'NONE' ? ` (${k.bindingConstraint.toLowerCase()} binds)` : ''}.`,
+    );
+  }
   for (const r of sub?.reasoning ?? []) lines.push(`• ${r}`);
 
   const done = d.actions.filter((a) => a.status === 'DONE');
