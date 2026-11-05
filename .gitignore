@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+eval/results/
+*.log
+.DS_Store
+Thumbs.db
+.vite/
+coverage/
+# Local-only notes and the assignment brief (not for the public repo)
+private/

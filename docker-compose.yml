@@ -1,0 +1,11 @@
+# Optional local MongoDB for reviewers who prefer not to use Atlas.
+# Usage: docker compose up -d   then set MONGO_URI=mongodb://localhost:27017/purchasing
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
