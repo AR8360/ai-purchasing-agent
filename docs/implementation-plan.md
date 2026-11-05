@@ -7,7 +7,7 @@
 
 ## 0. Status: implemented (as-built notes)
 
-All steps in §16 are implemented. 38 unit tests pass, and all 14 evaluation cases pass both live and in replay. Where the build deliberately differs from the plan below, the code and `docs/architecture.md` / `docs/approach.md` are authoritative:
+All steps in §16 are implemented. 42 unit tests pass, and all 14 evaluation cases pass both live and in replay. Where the build deliberately differs from the plan below, the code and `docs/architecture.md` / `docs/approach.md` are authoritative:
 
 - **State machine:** added `RECONCILING → NEEDS_APPROVAL` (an adjusted plan beyond auto limits), `INVESTIGATING → ESCALATED` (no accepted decision within 15 turns) and `DECIDED → ESCALATED` (an ESCALATE decision).
 - **Data model:** added `skus` (category selects the budget, zone selects the storage), `storage.reservedInboundUnits` (space booked by other deliveries), `supplierTerms.backfillLeadDays`, and `purchaseOrders.pendingQty` / `confirmedQty`.
@@ -27,7 +27,7 @@ All steps in §16 are implemented. 38 unit tests pass, and all 14 evaluation cas
 
 A quick-commerce company has human buyers who decide **what to buy, when, and how much** across many SKUs, suppliers and fulfillment nodes. They cross-check inventory, forecasts, open POs, supplier terms, budget and storage before acting. We build an agent that does that checking, makes a decision, **executes it, verifies the result, and recovers when the result is not what it expected** — pulling in a human only when the decision needs judgement.
 
-## 2. What the evaluators are actually testing
+## 2. What the brief asks for
 
 | Line in the doc | What it means for the build |
 |---|---|
@@ -346,7 +346,7 @@ Assertions map 1:1 to the doc's questions:
 
 Ten cases (S1: A–D, S2: A–F). `GET /eval/run` renders a pass/fail table in the UI's Evaluation tab.
 
-## 15. Build order (8 hours) — commit at each checkpoint
+## 15. Build order — commit at each checkpoint
 
 | # | Block | Hrs | Done when |
 |---|---|---|---|
@@ -528,12 +528,10 @@ Done when: §19 submission checklist is fully ticked on a fresh clone.
 4. **Read-back validation** — vs trusting write responses. Costs an extra call per write. Right because "accepted" ≠ "ended in the expected state" (async, MOQ bumps, races).
 5. **Compensate on partial failure** — vs forward-fix or leave. Costs: revert can confuse a supplier already notified. Right because amendments are soft until validated; if already sent, escalate instead of reverting.
 6. **MongoDB** — vs Postgres. Costs cross-collection transactions and ledger-grade integrity. Right for speed and because the trace is a document. In prod, money-related writes would use a transaction or Postgres.
-7. **Mocks in-process over HTTP** — vs separate services. Costs realism (no auth, partitions). Right for 8 hours; HTTP boundary keeps swap-to-real a URL change.
+7. **Mocks in-process over HTTP** — vs separate services. Costs realism (no auth, partitions). Right for the scope of this assignment; HTTP boundary keeps swap-to-real a URL change.
 8. **Depth on S1+S2** — vs all four. Costs demonstrating S3's evidence reasoning. Right per the brief; S3 ≈ S1 + one step, S4 is inside both.
 9. **Recorded LLM fixtures in tests** — vs live model. Costs testing current-model behaviour. Right because pipeline bugs are the real risk and LLM output is nondeterministic; one live flag covers drift. Recorded fixtures also mean free-tier quota is spent once, not on every test run.
 10. **Gemini free tier behind an `LLMClient` interface** — vs a paid frontier model. Costs free-tier rate limits (requests per minute and per day) and weaker multi-step tool-following than frontier models. Right because it is free with no card, and the deterministic engine, not the model, carries correctness. The interface makes a provider swap one adapter file (Anthropic, OpenAI-compatible). Would pay for a stronger model, with routing and fallback, once cost matters.
-
-Interview answer shape: *chose → costs → when I'd reverse it.*
 
 ## 18. Roadmap / open points (plug-ins, no architecture change)
 
@@ -553,24 +551,13 @@ Next to build if time remains: **supplier reliability write-back** — it makes 
 
 ## 19. Submission checklist
 
-- [ ] Source complete, TS compiles, `npm test` green
-- [ ] README: setup + run in 3 commands, screenshots/GIF of demo
-- [ ] Architecture diagram (components + state machine)
-- [ ] `docs/approach.md` with principles, trade-offs, roadmap
-- [ ] `docs/evaluation.md` with cases and results table
-- [ ] Mock APIs + seed data in repo
-- [ ] Validation explained (3 levels, 4 moves)
-- [ ] Working demo via Simulate panel
-- [ ] `.env.example`, no secrets, `.gitignore` covers `.env`
-- [ ] Commit history: small, descriptive, all before deadline
-
-## 20. Interview talking points
-
-- **Opening line:** "Deterministic code for everything that must be correct; the LLM only plans tool calls and explains. That split is what makes it safe to let it act."
-- **Feedback loop:** three validation levels, four reconciliation moves, bounded idempotent retries, soft amendments so compensation is safe.
-- **"Don't trust the recommendation":** show Case B — the system missed an open PO; agent computed 334, bound by storage to 250.
-- **"What if the action fails":** run S2 case E live (`reject_moq`), then F (compensate + escalate).
-- **Human-in-the-loop:** policy table as data; the UI is an approval inbox, not a chat.
-- **Why MERN/Mongo:** fluency + trace-as-document; be candid about ledger-grade writes.
-- **Why Gemini / provider-agnostic:** free tier, no card; `LLMClient` keeps the loop and the tests independent of the provider; rate limits handled with backoff and a minimum call interval.
-- **Roadmap:** each extension is a tool or a rule; supplier reliability closes the learning loop.
+- [x] Source complete, TS compiles, `npm test` green
+- [x] README: setup + run in 3 commands, screenshots/GIF of demo
+- [x] Architecture diagram (components + state machine)
+- [x] `docs/approach.md` with principles, trade-offs, roadmap
+- [x] `docs/evaluation.md` with cases and results table
+- [x] Mock APIs + seed data in repo
+- [x] Validation explained (3 levels, 4 moves)
+- [x] Working demo via Simulate panel
+- [x] `.env.example`, no secrets, `.gitignore` covers `.env`
+- [x] Commit history: small, descriptive, all before deadline

@@ -10,14 +10,14 @@ An agent for a quick-commerce buyer that **makes, executes and validates purchas
 
 ▶ **Demo video (3 min):** DEMO_VIDEO_LINK — a live run of Scenario 1 (modify, then human approval) and Scenario 2 (re-source, adjust after a rejected order, compensate after a second failure), then the evaluation tab.
 
-To run it yourself without a Gemini key, set `LLM_CACHE=replay` in `.env`: every scenario then replays recorded model responses.
+To run it yourself you do not need a Gemini key: with the default `LLM_CACHE=record`, every demo scenario replays recorded model responses.
 
 ## Run it
 
 Requirements: Node 20+, and a MongoDB (Atlas free tier, or `docker compose up -d` for a local one).
 
 ```bash
-cp .env.example .env        # then fill in GEMINI_API_KEY, MODEL, MONGO_URI
+cp .env.example .env        # set MONGO_URI; GEMINI_API_KEY is optional (see below)
 npm install
 npm run dev                 # API on :4000, UI on http://localhost:5173
 ```
@@ -34,7 +34,7 @@ Useful commands:
 | `npm run llm:ping` / `npm run db:ping` | Checks the Gemini key, model and function calling, or the database connection. |
 | `npm run show -- <decisionId>` | Prints a decision trace in the terminal. |
 
-**No API key?** Set `LLM_CACHE=replay` in `.env`. The app then serves the recorded model responses for every scenario, so the whole demo runs offline.
+**API key and quota.** You do not need a Gemini key to try it. With the default `LLM_CACHE=record`, the 14 demo scenarios replay from recorded model responses, so running them in the UI and `npm run eval` use no quota. A key is only used for a request that was never recorded, or when you choose `LLM_CACHE=off` or `npm run eval:live`. That is about 2 model calls per scenario run (about 28 for a full live evaluation), well within the Gemini free tier. Calls are spaced by `LLM_MIN_INTERVAL_MS`, 429s are retried with backoff, and a daily-quota error fails fast with a clear message instead of hanging.
 
 ## Demo script (UI)
 

@@ -23,7 +23,9 @@ let llm: LLMClient | null = null;
 export function getLlm(): LLMClient {
   if (!llm) {
     const mode = config.llm.cacheMode;
-    const live = mode === 'replay' ? null : createLLM();
+    // Replay never calls the model. Record without a key also runs offline: recorded
+    // scenarios replay, and anything not recorded fails with a clear message.
+    const live = mode === 'replay' || (mode === 'record' && !config.llm.apiKey) ? null : createLLM();
     const meta =
       (mode === 'replay' && readFixtureManifest(config.paths.fixtures)) || { provider: config.llm.provider, model: config.llm.model };
     llm = mode === 'off' ? live! : new CachingLLM(live, mode, config.paths.fixtures, meta);
