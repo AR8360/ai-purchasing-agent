@@ -8,7 +8,7 @@ An agent for a quick-commerce buyer that **makes, executes and validates purchas
 
 ## Demo
 
-▶ **Demo video (3 min):** DEMO_VIDEO_LINK — a live run of Scenario 1 (modify, then human approval) and Scenario 2 (re-source, adjust after a rejected order, compensate after a second failure), then the evaluation tab.
+▶ **[Demo video](https://www.loom.com/share/8f2f0f2f149e4313873dfa5973ce5843)** — a live run of Scenario 1 (modify, then human approval) and Scenario 2 (re-source, adjust after a rejected order, compensate after a second failure), then the evaluation tab.
 
 To run it yourself you do not need a Gemini key: with the default `LLM_CACHE=record`, every demo scenario replays recorded model responses.
 
