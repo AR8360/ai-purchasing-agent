@@ -7,7 +7,7 @@
 
 ## 0. Status: implemented (as-built notes)
 
-All steps in §16 are implemented. 42 unit tests pass, and all 14 evaluation cases pass both live and in replay. Where the build deliberately differs from the plan below, the code and `docs/architecture.md` / `docs/approach.md` are authoritative:
+All steps in §16 are implemented. 42 unit tests pass, and all 15 evaluation cases pass both live and in replay. Where the build deliberately differs from the plan below, the code and `docs/architecture.md` / `docs/approach.md` are authoritative:
 
 - **State machine:** added `RECONCILING → NEEDS_APPROVAL` (an adjusted plan beyond auto limits), `INVESTIGATING → ESCALATED` (no accepted decision within 15 turns) and `DECIDED → ESCALATED` (an ESCALATE decision).
 - **Data model:** added `skus` (category selects the budget, zone selects the storage), `storage.reservedInboundUnits` (space booked by other deliveries), `supplierTerms.backfillLeadDays`, and `purchaseOrders.pendingQty` / `confirmedQty`.
@@ -18,7 +18,7 @@ All steps in §16 are implemented. 42 unit tests pass, and all 14 evaluation cas
 - **Policy (§10):** buying **less** than recommended is automatic, and only increases above +20% need approval. An ADJUST after a failure re-executes automatically if it grows the order by at most 20%.
 - **Idempotency key:** `${decisionId}:${actionIndex}:${type}:${attempt}`. A RETRY keeps the key; an ADJUST increments the attempt.
 - **LLM:** Gemini via `@google/genai` behind `LLMClient`, recorded with `gemini-3.5-flash-lite`, because the free tier of `gemini-3.8-flash` is 20 requests per day. The model runs in 2 turns: all evidence and engine tools in parallel, then submit.
-- **Eval:** 14 cases (the plan had 10): added an approval case and three Scenario 1 failure cases (timeout retry, read-back retry, quantity-mismatch compensation). Modes are replay, record and live; fixtures carry a model manifest.
+- **Eval:** 15 cases (the plan had 10): added an approval case, a REJECT case and three Scenario 1 failure cases (timeout retry, read-back retry, quantity-mismatch compensation). Modes are replay, record and live; fixtures carry a model manifest.
 - **Clock:** a simulated clock (`SIM_NOW`) drives business time; audit timestamps use wall time.
 
 ---

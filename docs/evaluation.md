@@ -42,6 +42,7 @@ npm run eval -- --case s2-e  # one case
 | s1-f-retry-timeout | PO service times out after writing | timeout | RETRY, exactly 1 PO for the decision |
 | s1-g-retry-not-found | New PO not readable at first | not_found | RETRY (re-read), VALIDATED |
 | s1-h-compensate-mismatch | Portal rounds the PO up to 300, breaking storage | mismatch_qty | ADJUST rejected, then COMPENSATE (PO cancelled), ESCALATED |
+| s1-i-reject | Recommendation 800, but 600 on hand + PO-1041 (400) already cover the 884 needed | — | REJECT, NO_ACTION, no PO |
 | s2-a-accept-partial | 700 on hand; the shortfall does not matter | — | ACCEPT (partial), PO-2001 → 250 |
 | s2-b-split | DairyCo backfills on day 9 < stockout day 11.17 | — | MODIFY (split), PO-2002 DairyCo 250 |
 | s2-c-resource | Backfill day 14 too late; FreshFarms day 3, +5% | — | MODIFY (re-source), PO-2002 FreshFarms 250 |
@@ -53,10 +54,10 @@ The same LLM conversation is shared by cases with the same world and trigger (s1
 
 ## Results
 
-Recorded with `gemini-3.5-flash-lite` (the model is listed in `eval/fixtures/_manifest.json`):
+Responses were recorded with `gemini-3.5-flash-lite` (the model is listed in `eval/fixtures/_manifest.json`). Replay run (`npm run eval`):
 
 ```
-Evaluation (mode=record)
+Evaluation (mode=replay)
 PASS  s1-a-accept                  VALIDATED      ACCEPT      350   turns=2
 PASS  s1-b-modify-storage          VALIDATED      MODIFY      250   turns=2
 PASS  s1-c-escalate-moq            ESCALATED      ESCALATE    -     turns=2
@@ -65,16 +66,17 @@ PASS  s1-e-approval                VALIDATED      MODIFY      350   turns=2
 PASS  s1-f-retry-timeout           VALIDATED      MODIFY      250   turns=2
 PASS  s1-g-retry-not-found         VALIDATED      MODIFY      250   turns=2
 PASS  s1-h-compensate-mismatch     ESCALATED      MODIFY      250   turns=2
+PASS  s1-i-reject                  NO_ACTION      REJECT      0     turns=2
 PASS  s2-a-accept-partial          VALIDATED      ACCEPT      250   turns=2
 PASS  s2-b-split                   VALIDATED      MODIFY      250   turns=2
 PASS  s2-c-resource                VALIDATED      MODIFY      250   turns=2
 PASS  s2-d-escalate-premium        ESCALATED      ESCALATE    -     turns=2
 PASS  s2-e-adjust-moq              VALIDATED      MODIFY      250   turns=2
 PASS  s2-f-compensate-escalate     ESCALATED      MODIFY      250   turns=2
-14/14 passed
+15/15 passed
 ```
 
-Replay (`npm run eval`) passes 14/14 on consecutive runs, with zero cache misses. The quantity column is the quantity the agent *decided*; the executed quantity can differ after recovery (for example, 300 in s2-e) and is asserted on the purchase orders.
+Replay passes 15/15 on consecutive runs, with zero cache misses. The quantity column is the quantity the agent *decided*; the executed quantity can differ after recovery (for example, 300 in s2-e) and is asserted on the purchase orders.
 
 Unit tests (`npm test`): 42 passing. Of these, 39 are engine tests covering every scenario's numbers, policy rules, state machine, validator, reconciler, guard, evidence facts and reasoning grounding, and 3 are contract tests.
 

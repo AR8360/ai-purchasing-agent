@@ -1,0 +1,24 @@
+{
+  "name": "s1-i-reject",
+  "variant": "s1-i",
+  "description": "Was the decision correct? Stock on hand plus incoming already covers demand, so the recommendation is rejected and nothing is ordered.",
+  "expect": {
+    "decision": "REJECT",
+    "finalState": "NO_ACTION",
+    "toolsCalledIncludes": [
+      "get_inventory",
+      "get_demand_forecast",
+      "get_open_purchase_orders",
+      "get_supplier_terms",
+      "get_budget",
+      "get_storage_capacity",
+      "compute_need",
+      "check_constraints"
+    ],
+    "actions": [],
+    "approvalRequired": false,
+    "pos": {
+      "PO-1042": null
+    }
+  }
+}
