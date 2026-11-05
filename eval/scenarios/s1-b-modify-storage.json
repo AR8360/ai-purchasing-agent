@@ -1,0 +1,36 @@
+{
+  "name": "s1-b-modify-storage",
+  "variant": "s1-b",
+  "description": "Did it challenge the recommendation? 800 ignored open PO-1041; storage caps the order at 250.",
+  "expect": {
+    "decision": "MODIFY",
+    "quantity": 250,
+    "finalState": "VALIDATED",
+    "toolsCalledIncludes": [
+      "get_inventory",
+      "get_demand_forecast",
+      "get_open_purchase_orders",
+      "get_supplier_terms",
+      "get_budget",
+      "get_storage_capacity",
+      "compute_need",
+      "check_constraints"
+    ],
+    "constraintsHit": [
+      "STORAGE"
+    ],
+    "actions": [
+      "CREATE_PO"
+    ],
+    "validated": true,
+    "reconciliationMoves": [],
+    "approvalRequired": false,
+    "pos": {
+      "PO-1042": {
+        "supplierId": "DAIRYCO",
+        "qty": 250,
+        "status": "CREATED"
+      }
+    }
+  }
+}

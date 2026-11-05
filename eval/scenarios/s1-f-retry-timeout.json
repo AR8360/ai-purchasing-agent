@@ -1,0 +1,21 @@
+{
+  "name": "s1-f-retry-timeout",
+  "variant": "s1-f",
+  "description": "What if the action fails? The PO service times out after writing; the idempotent retry creates no duplicate.",
+  "expect": {
+    "decision": "MODIFY",
+    "quantity": 250,
+    "finalState": "VALIDATED",
+    "reconciliationMoves": [
+      "RETRY"
+    ],
+    "validated": true,
+    "posCreatedByDecision": 1,
+    "pos": {
+      "PO-1042": {
+        "qty": 250
+      },
+      "PO-1043": null
+    }
+  }
+}

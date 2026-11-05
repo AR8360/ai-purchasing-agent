@@ -1,0 +1,28 @@
+{
+  "name": "s1-c-escalate-moq",
+  "variant": "s1-c",
+  "description": "Did it respect constraints? MOQ 300 vs storage 250 has no feasible quantity, so it escalates.",
+  "expect": {
+    "decision": "ESCALATE",
+    "finalState": "ESCALATED",
+    "toolsCalledIncludes": [
+      "get_inventory",
+      "get_demand_forecast",
+      "get_open_purchase_orders",
+      "get_supplier_terms",
+      "get_budget",
+      "get_storage_capacity",
+      "compute_need",
+      "check_constraints"
+    ],
+    "constraintsHit": [
+      "STORAGE",
+      "MOQ"
+    ],
+    "actions": [],
+    "reconciliationMoves": [],
+    "pos": {
+      "PO-1042": null
+    }
+  }
+}

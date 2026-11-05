@@ -1,0 +1,24 @@
+{
+  "name": "s2-e-adjust-moq",
+  "variant": "s2-e",
+  "description": "What if the action fails? FreshFarms rejects 250 (MOQ now 300); the agent adjusts and retries.",
+  "expect": {
+    "decision": "MODIFY",
+    "strategy": "RESOURCE",
+    "finalState": "VALIDATED",
+    "reconciliationMoves": [
+      "ADJUST"
+    ],
+    "validated": true,
+    "pos": {
+      "PO-2001": {
+        "qty": 250,
+        "pendingQty": null
+      },
+      "PO-2002": {
+        "supplierId": "FRESHFARMS",
+        "qty": 300
+      }
+    }
+  }
+}

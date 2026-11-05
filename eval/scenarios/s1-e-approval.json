@@ -1,0 +1,22 @@
+{
+  "name": "s1-e-approval",
+  "variant": "s1-e",
+  "description": "Human in the loop: buying 75% more than recommended needs approval; approved, it executes and validates.",
+  "approve": true,
+  "expect": {
+    "decision": "MODIFY",
+    "quantity": 350,
+    "finalState": "VALIDATED",
+    "approvalRequired": true,
+    "actions": [
+      "CREATE_PO"
+    ],
+    "validated": true,
+    "pos": {
+      "PO-1042": {
+        "qty": 350,
+        "status": "CREATED"
+      }
+    }
+  }
+}

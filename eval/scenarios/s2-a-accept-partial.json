@@ -1,0 +1,32 @@
+{
+  "name": "s2-a-accept-partial",
+  "variant": "s2-a",
+  "description": "Shortfall that does not matter: amend PO-2001 to 250, no new order.",
+  "expect": {
+    "decision": "ACCEPT",
+    "strategy": "ACCEPT_PARTIAL",
+    "finalState": "VALIDATED",
+    "toolsCalledIncludes": [
+      "get_purchase_order",
+      "get_inventory",
+      "get_demand_forecast",
+      "get_supplier_terms",
+      "list_alternate_suppliers",
+      "get_budget",
+      "get_storage_capacity",
+      "compute_need",
+      "assess_shortfall"
+    ],
+    "actions": [
+      "AMEND_PO"
+    ],
+    "validated": true,
+    "pos": {
+      "PO-2001": {
+        "qty": 250,
+        "pendingQty": null
+      },
+      "PO-2002": null
+    }
+  }
+}

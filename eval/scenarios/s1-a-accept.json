@@ -1,0 +1,33 @@
+{
+  "name": "s1-a-accept",
+  "variant": "s1-a",
+  "description": "Was the decision correct? A correct recommendation is accepted unchanged.",
+  "expect": {
+    "decision": "ACCEPT",
+    "quantity": 350,
+    "finalState": "VALIDATED",
+    "toolsCalledIncludes": [
+      "get_inventory",
+      "get_demand_forecast",
+      "get_open_purchase_orders",
+      "get_supplier_terms",
+      "get_budget",
+      "get_storage_capacity",
+      "compute_need",
+      "check_constraints"
+    ],
+    "actions": [
+      "CREATE_PO"
+    ],
+    "validated": true,
+    "reconciliationMoves": [],
+    "approvalRequired": false,
+    "pos": {
+      "PO-1042": {
+        "supplierId": "DAIRYCO",
+        "qty": 350,
+        "status": "CREATED"
+      }
+    }
+  }
+}

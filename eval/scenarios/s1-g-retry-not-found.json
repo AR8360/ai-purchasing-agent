@@ -1,0 +1,15 @@
+{
+  "name": "s1-g-retry-not-found",
+  "variant": "s1-g",
+  "description": "Did it validate? The new PO is not readable at first; the agent re-reads instead of trusting the write.",
+  "expect": {
+    "decision": "MODIFY",
+    "quantity": 250,
+    "finalState": "VALIDATED",
+    "reconciliationMoves": [
+      "RETRY"
+    ],
+    "validated": true,
+    "posCreatedByDecision": 1
+  }
+}

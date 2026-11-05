@@ -1,0 +1,21 @@
+{
+  "name": "s2-f-compensate-escalate",
+  "variant": "s2-f",
+  "description": "Second failure (budget): the agent reverts PO-2001 and escalates with a clean state.",
+  "expect": {
+    "decision": "MODIFY",
+    "strategy": "RESOURCE",
+    "finalState": "ESCALATED",
+    "reconciliationMoves": [
+      "ADJUST",
+      "COMPENSATE"
+    ],
+    "pos": {
+      "PO-2001": {
+        "qty": 500,
+        "pendingQty": null
+      },
+      "PO-2002": null
+    }
+  }
+}

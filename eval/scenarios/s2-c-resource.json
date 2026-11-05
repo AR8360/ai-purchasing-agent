@@ -1,0 +1,38 @@
+{
+  "name": "s2-c-resource",
+  "variant": "s2-c",
+  "description": "Backfill too late: re-source 250 from FreshFarms (+5%, day 3).",
+  "expect": {
+    "decision": "MODIFY",
+    "strategy": "RESOURCE",
+    "quantity": 250,
+    "finalState": "VALIDATED",
+    "toolsCalledIncludes": [
+      "get_purchase_order",
+      "get_inventory",
+      "get_demand_forecast",
+      "get_supplier_terms",
+      "list_alternate_suppliers",
+      "get_budget",
+      "get_storage_capacity",
+      "compute_need",
+      "assess_shortfall"
+    ],
+    "actions": [
+      "AMEND_PO",
+      "CREATE_PO"
+    ],
+    "validated": true,
+    "reconciliationMoves": [],
+    "pos": {
+      "PO-2001": {
+        "qty": 250,
+        "pendingQty": null
+      },
+      "PO-2002": {
+        "supplierId": "FRESHFARMS",
+        "qty": 250
+      }
+    }
+  }
+}

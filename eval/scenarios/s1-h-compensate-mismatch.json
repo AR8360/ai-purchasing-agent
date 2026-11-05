@@ -1,0 +1,20 @@
+{
+  "name": "s1-h-compensate-mismatch",
+  "variant": "s1-h",
+  "description": "Did it validate? The portal rounded the PO to 300, breaking storage; the agent cancels and escalates.",
+  "expect": {
+    "decision": "MODIFY",
+    "quantity": 250,
+    "finalState": "ESCALATED",
+    "reconciliationMoves": [
+      "ADJUST",
+      "COMPENSATE"
+    ],
+    "pos": {
+      "PO-1042": {
+        "qty": 300,
+        "status": "CANCELLED"
+      }
+    }
+  }
+}

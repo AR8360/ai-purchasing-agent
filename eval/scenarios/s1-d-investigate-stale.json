@@ -1,0 +1,23 @@
+{
+  "name": "s1-d-investigate-stale",
+  "variant": "s1-d",
+  "description": "Did it obtain trustworthy information? A 72h-old forecast blocks action.",
+  "expect": {
+    "decision": "INVESTIGATE",
+    "finalState": "NO_ACTION",
+    "toolsCalledIncludes": [
+      "get_inventory",
+      "get_demand_forecast",
+      "get_open_purchase_orders",
+      "get_supplier_terms",
+      "get_budget",
+      "get_storage_capacity",
+      "compute_need",
+      "check_constraints"
+    ],
+    "actions": [],
+    "pos": {
+      "PO-1042": null
+    }
+  }
+}
